@@ -106,11 +106,11 @@ console.log('Prosek:', (p / pCount), 'Prezime:', studenti[prezime].prezime, 'Ime
 //     console.log(v, i);
 // });
 
-// var niza = [
-//     {ime: "P", prezime: 'Pp'},
-//     {ime: "O", prezime: 'Oo'},
-// ];
+var niza = [
+    {ime: "P", prezime: 'Pp'},
+    {ime: "O", prezime: 'Oo'},
+];
 
-// for(var i in niza){
-//     console.log(niza[i].prezime);
-// }
+for(var i in niza){
+    console.log(niza[i].prezime);
+}
