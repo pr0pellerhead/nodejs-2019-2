@@ -24,10 +24,10 @@ var addStudent = (data) => {
 var getAllStudents = () => {
     return new Promise((success, fail) => {
         student.find({}, (err, data) => {
-            if(err){
-                return fail(err);
+            if(err == null){
+                return success(data);
             }
-            return success(data);
+            return fail(err);
         });
     });
 }
@@ -43,8 +43,32 @@ var getSingleStudent = (id) => {
     });
 }
 
+var deleteStudent = (id) => {
+    return new Promise((success, fail) => {
+        student.deleteOne({_id: id}, err => {
+            if(err){
+                return fail(err);
+            }
+            return success();
+        });
+    });
+}
+
+var updateStudent = (id, data) => {
+    return new Promise((success, fail) => {
+        student.updateOne({_id: id}, data, err => {
+            if(err) {
+                return fail(err);
+            }
+            return success();
+        });
+    });
+}
+
 module.exports = {
     addStudent,
     getAllStudents,
-    getSingleStudent
+    getSingleStudent,
+    deleteStudent,
+    updateStudent
 };
