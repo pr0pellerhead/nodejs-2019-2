@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <h2 style="color: red">Websocket test</h2>
+    <input type="text" id="screenname"/>
+    <button id="connect-btn">Connect</button>
+    <hr/>
+    <textarea cols="30" rows="10"></textarea>
+    <br/>
+    <input type="text" id="message-input">
+    <!-- <button id="send-btn">Send Message</button> -->
+    <script>
+        var ws;
+        var ta = document.querySelector('textarea');
+        var sn = document.querySelector('#screenname');
+        document.querySelector('#connect-btn').addEventListener('click', function(){
+            if(sn.value.trim() != ''){
+                ws = new WebSocket('ws://10.104.10.110:8081'); // kreiranje na konekcija do websocket serverot
+                ws.addEventListener('open', function(e) { // chekame konekcijata da bide otvorena
+                    ws.send(JSON.stringify({ // koga konekcijata kje bide otvorena, reistriraj go korisnikot t.e. isprati parametri za registracija
+                        type: 'register', // tip na poraka (register)
+                        message: sn.value.trim() // screenname na korisnikot
+                    }));
+                });
+                
+                ws.addEventListener('message', function(e) { // chekame da pristigne nekakva poraka od serverot. ova se izvrshuva sekoj pat koga kje pristigne poraka od serverot
+                    console.log(e);
+                    ta.value += ("\n" + e.data);
+                    ta.scrollTop = ta.scrollHeight;
+                });
+            } else {
+                alert('Please set a screen name first!');
+            }
+        });
+
+        var sendBtn = document.querySelector('#send-btn');
+        var messageInput = document.querySelector('#message-input');
+
+        messageInput.addEventListener('keyup', function(e) {
+            console.log(e);
+            if(e.key == 'Enter'){
+                var text = messageInput.value.trim();
+                if(text != ''){
+                    ws.send(JSON.stringify({
+                        type: 'text',
+                        message: text
+                    }));
+                    messageInput.value = '';
+                }
+            }
+        });
+    </script>
+</body>
+</html>
