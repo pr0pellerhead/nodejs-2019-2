@@ -4,7 +4,7 @@ var express = require("express");
 // kreiranje na websocket server
 var server = ws.createServer(function (conn) { // "conn" e konekcijata na korisnikot koj se zakachuva na serverot
     conn.on("text", function (str) {
-        var msg = JSON.parse(str);
+        var msg = JSON.parse(str); // msg: {type: "register|text", text: "..."}
         switch(msg.type){
             case 'register':
                 conn.screenname = msg.message;
